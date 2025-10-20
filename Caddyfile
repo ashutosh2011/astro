@@ -1,0 +1,102 @@
+# Caddyfile for Astro Production Deployment
+# This assumes Caddy is already running on your server
+# and you want to proxy to the docker services
+
+astro.ashuj.com {
+    # Use custom ports since 80/443 are already in use
+    # Adjust these ports based on your Caddy setup
+    # If Caddy is running on different ports (e.g., 8443, 8880), this will work automatically
+    
+    # Enable logging
+    log {
+        output file /var/log/caddy/astro.log
+        format json
+    }
+
+    # Security headers
+    header {
+        # Enable HSTS
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        # Prevent clickjacking
+        X-Frame-Options "SAMEORIGIN"
+        # Prevent MIME type sniffing
+        X-Content-Type-Options "nosniff"
+        # Enable XSS protection
+        X-XSS-Protection "1; mode=block"
+        # Referrer policy
+        Referrer-Policy "strict-origin-when-cross-origin"
+        # Remove Server header
+        -Server
+    }
+
+    # API routes - proxy to backend
+    handle /api/* {
+        reverse_proxy localhost:8000 {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+            
+            # Health check
+            health_uri /healthz
+            health_interval 30s
+            health_timeout 10s
+        }
+    }
+
+    # Docs routes - proxy to backend
+    handle /docs* {
+        reverse_proxy localhost:8000
+    }
+
+    handle /redoc* {
+        reverse_proxy localhost:8000
+    }
+
+    handle /openapi.json {
+        reverse_proxy localhost:8000
+    }
+
+    # Health check endpoint - proxy to backend
+    handle /healthz {
+        reverse_proxy localhost:8000
+    }
+
+    # WebSocket support for any real-time features
+    handle /ws/* {
+        reverse_proxy localhost:8000 {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+        }
+    }
+
+    # Frontend - proxy to frontend service
+    handle {
+        reverse_proxy localhost:3000 {
+            header_up Host {host}
+            header_up X-Real-IP {remote}
+            header_up X-Forwarded-For {remote}
+            header_up X-Forwarded-Proto {scheme}
+            
+            # Health check
+            health_uri /health
+            health_interval 30s
+            health_timeout 5s
+        }
+    }
+
+    # Compression
+    encode gzip zstd
+
+    # Rate limiting (optional - adjust as needed)
+    # rate_limit {
+    #     zone static {
+    #         key {remote}
+    #         events 100
+    #         window 1m
+    #     }
+    # }
+}
+
