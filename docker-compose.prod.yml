@@ -73,7 +73,7 @@ services:
       
       # OpenAI
       OPENAI_API_KEY: ${OPENAI_API_KEY}
-      OPENAI_MODEL: "gpt-4o"
+      OPENAI_MODEL: "gpt-5"
       
       # Ephemeris
       EPHEMERIS_DATA_PATH: "./ephemeris"
@@ -84,7 +84,7 @@ services:
       HOUSE_SYSTEM_DEFAULT: "WholeSign"
       
       # LLM Settings
-      LLM_MODEL: "gpt-4o"
+      LLM_MODEL: "gpt-5"
       LLM_TEMPERATURE: "0.7"
       LLM_MAX_TOKENS: "3000"
       LLM_SEED: "7"

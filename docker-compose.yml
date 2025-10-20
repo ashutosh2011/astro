@@ -72,7 +72,7 @@ services:
       
       # OpenAI (optional - set your API key)
       OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
-      OPENAI_MODEL: "${OPENAI_MODEL:-gpt-4o}"
+      OPENAI_MODEL: "${OPENAI_MODEL:-gpt-5}"
       
       # Ephemeris
       EPHEMERIS_DATA_PATH: "./ephemeris"
@@ -82,8 +82,8 @@ services:
       AYANAMSA_DEFAULT: "Lahiri"
       HOUSE_SYSTEM_DEFAULT: "WholeSign"
       
-      # LLM Settings - Using GPT-4o (GPT-5 may not be available yet)
-      LLM_MODEL: "gpt-4o"
+      # LLM Settings
+      LLM_MODEL: "gpt-5"
       LLM_TEMPERATURE: "0.7"
       LLM_MAX_TOKENS: "3000"
       LLM_SEED: "7"

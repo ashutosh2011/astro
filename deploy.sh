@@ -5,7 +5,7 @@
 
 set -e
 
-COMPOSE_FILE="docker compose.prod.yml"
+COMPOSE_FILE="docker-compose.prod.yml"
 ENV_FILE=".env.production"
 
 # Colors for output
