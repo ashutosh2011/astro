@@ -27,6 +27,7 @@ set -a
 source "$ENV_FILE"
 set +a
 
+
 # Check required variables
 REQUIRED_VARS=(
     "SECRET_KEY"
@@ -62,7 +63,7 @@ usage() {
 # Function to start services
 start_services() {
     echo -e "${GREEN}Starting Astro services...${NC}"
-    docker compose -f "$COMPOSE_FILE" up -d
+    docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" up -d
     echo -e "${GREEN}Services started!${NC}"
     echo ""
     echo "Check status with: $0 status"
@@ -72,27 +73,27 @@ start_services() {
 # Function to stop services
 stop_services() {
     echo -e "${YELLOW}Stopping Astro services...${NC}"
-    docker compose -f "$COMPOSE_FILE" down
+    docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" down
     echo -e "${GREEN}Services stopped!${NC}"
 }
 
 # Function to restart services
 restart_services() {
     echo -e "${YELLOW}Restarting Astro services...${NC}"
-    docker compose -f "$COMPOSE_FILE" restart
+    docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" restart
     echo -e "${GREEN}Services restarted!${NC}"
 }
 
 # Function to view logs
 view_logs() {
     echo -e "${GREEN}Viewing logs (Ctrl+C to exit)...${NC}"
-    docker compose -f "$COMPOSE_FILE" logs -f
+    docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" logs -f
 }
 
 # Function to check status
 check_status() {
     echo -e "${GREEN}Service Status:${NC}"
-    docker compose -f "$COMPOSE_FILE" ps
+    docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" ps
     echo ""
     echo -e "${GREEN}Resource Usage:${NC}"
     docker stats --no-stream --format "table {{.Container}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.NetIO}}" \
@@ -102,7 +103,7 @@ check_status() {
 # Function to build and start
 build_services() {
     echo -e "${GREEN}Building and starting Astro services...${NC}"
-    docker compose -f "$COMPOSE_FILE" up -d --build
+    docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" up -d --build
     echo -e "${GREEN}Services built and started!${NC}"
 }
 
@@ -135,7 +136,7 @@ clean_services() {
     
     if [ "$confirm" = "yes" ]; then
         echo -e "${YELLOW}Cleaning up...${NC}"
-        docker compose -f "$COMPOSE_FILE" down -v
+        docker compose --env-file "$ENV_FILE" -f "$COMPOSE_FILE" down -v
         echo -e "${GREEN}Cleanup complete!${NC}"
     else
         echo "Cancelled."

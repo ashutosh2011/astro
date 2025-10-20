@@ -2,17 +2,20 @@
 
 1. **Create `.env.production`:**
 ```bash
-cat > .env.production << EOF
-SECRET_KEY=$(python3 -c 'import secrets; print(secrets.token_urlsafe(32))')
-JWT_SECRET_KEY=$(python3 -c 'import secrets; print(secrets.token_urlsafe(32))')
-ENCRYPTION_KEY=$(python3 -c 'import secrets; print(secrets.token_urlsafe(32))')
-POSTGRES_PASSWORD=$(python3 -c 'import secrets; print(secrets.token_urlsafe(24))')
-REDIS_PASSWORD=$(python3 -c 'import secrets; print(secrets.token_urlsafe(24))')
-OPENAI_API_KEY=YOUR_KEY_HERE
+cat > .env.production << 'EOF'
+SECRET_KEY=YOUR_32_CHAR_SECRET
+JWT_SECRET_KEY=YOUR_32_CHAR_JWT_SECRET
+ENCRYPTION_KEY=YOUR_32_CHAR_ENCRYPTION_KEY
+POSTGRES_DB=astro_db
+POSTGRES_USER=astro_user
+POSTGRES_PASSWORD=YOUR_SECURE_DB_PASSWORD
+REDIS_PASSWORD=YOUR_SECURE_REDIS_PASSWORD
+OPENAI_API_KEY=YOUR_OPENAI_KEY_HERE
 VITE_API_URL=https://astro.ashuj.com/api
 EOF
 ```
-Then edit `.env.production` to add your OpenAI key.
+Generate secure keys: `python3 -c "import secrets; print(secrets.token_urlsafe(32))"`
+Then edit `.env.production` with your actual values.
 
 2. **Setup Caddy:**
 ```bash
