@@ -122,11 +122,11 @@ class Settings(BaseSettings):
         env="LLM_MODEL"
     )
     llm_temperature: float = Field(
-        default=0.7,
+        default=0.3,  # Lower temperature for more focused responses
         env="LLM_TEMPERATURE"
     )
     llm_max_tokens: int = Field(
-        default=3000,  # Updated for GPT-5 compatibility
+        default=600,  # Optimized for GPT-5 as per plan.md
         env="LLM_MAX_TOKENS"
     )
     llm_seed: int = Field(
@@ -134,7 +134,7 @@ class Settings(BaseSettings):
         env="LLM_SEED"
     )
     llm_timeout_ms: int = Field(
-        default=60000,  # 60 seconds for GPT-5
+        default=15000,  # 15 seconds for GPT-5 as per plan.md
         env="LLM_TIMEOUT_MS"
     )
     llm_streaming_enabled: bool = Field(

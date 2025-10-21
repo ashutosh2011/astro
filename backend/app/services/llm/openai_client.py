@@ -509,23 +509,16 @@ class OpenAIClient:
         return True
     
     def _get_gpt5_parameters(self, model: str) -> Dict[str, Any]:
-        """Get GPT-5 specific parameters if model is GPT-5.
-        
-        Note: GPT-5 may not support all parameters yet. Disable for now.
-        """
-        # Temporarily disabled - GPT-5 parameters may not be supported in current API version
+        """Get GPT-5 specific parameters if model is GPT-5."""
+        if not model:
+            return {}
+        lower = model.lower()
+        if lower.startswith("gpt-5"):
+            return {
+                "reasoning_effort": self.reasoning_effort,
+                "verbosity": self.verbosity
+            }
         return {}
-        
-        # Original code (disabled):
-        # if not model:
-        #     return {}
-        # lower = model.lower()
-        # if lower.startswith("gpt-5"):
-        #     return {
-        #         "reasoning_effort": self.reasoning_effort,
-        #         "verbosity": self.verbosity
-        #     }
-        # return {}
 
     def _strip_markdown_fences(self, text: str) -> str:
         """Remove common markdown fences and backticks around JSON blocks."""

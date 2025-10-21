@@ -83,11 +83,11 @@ services:
       HOUSE_SYSTEM_DEFAULT: "WholeSign"
       
       # LLM Settings
-      LLM_MODEL: "gpt-5"
-      LLM_TEMPERATURE: "0.7"
-      LLM_MAX_TOKENS: "3000"
+      LLM_MODEL: "gpt-4o"
+      LLM_TEMPERATURE: "0.3"
+      LLM_MAX_TOKENS: "600"
       LLM_SEED: "7"
-      LLM_TIMEOUT_MS: "60000"
+      LLM_TIMEOUT_MS: "15000"
       
       # Cache
       CACHE_TTL_HOURS: "24"
